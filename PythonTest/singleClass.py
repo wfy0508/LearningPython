@@ -1,21 +1,3 @@
-class Animal:
-    def __init__(self, name):
-        self.name = name
-
-    def run(self):
-        print("Animal run")
-
-
-class Dog(Animal):
-
-    def run(self):
-        print("Dog run")
-        super().run()
-
-
-# dog = Dog("wangcai")
-# dog.run()
-
 # 创建一个单例对象
 class MusicPlayer(object):
     # 定义一个类属性
