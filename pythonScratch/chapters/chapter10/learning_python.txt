@@ -1,0 +1,3 @@
+In Python you can statics number count.
+In Python you can learn how to preprocess a text file.
+In Python you can learn how to analysis data and generate a report.
