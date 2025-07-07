@@ -3,6 +3,7 @@ import sys
 from setting import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -19,6 +20,9 @@ class AlienInvasion:
         self.ship = Ship(self)
         # 创建一个编组(group)，用于存储所有有效的子弹，以便管理发射出去的所有子弹
         self.bullets = pygame.sprite.Group()
+        # 创建一个编组(group)，用于存储外星人
+        self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
     def run_game(self):
         while True:
@@ -73,7 +77,23 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-        #print(len(self.bullets))
+        # print(len(self.bullets))
+
+    def _create_fleet(self):
+        """创建外星人舰队"""
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        current_x = alien_width
+        while current_x < (self.settings.screen_width - 2*alien_width):
+            self._create_alien(current_x)
+            current_x += 2*alien_width
+
+    def _create_alien(self, x_position):
+        """创建一个外星人，并将其加入舰队"""
+        new_alien = Alien(self)
+        new_alien.x = x_position
+        new_alien.rect.x = x_position
+        self.aliens.add(new_alien)
 
     def _update_screen(self):
         # 填充屏幕背景色
@@ -83,6 +103,8 @@ class AlienInvasion:
             bullet.draw_bullet()
         # 绘制飞船
         self.ship.blitme()
+        # 绘制外星人
+        self.aliens.draw(self.screen)
         # 在每次执行while循环时都绘制一个空屏幕，并擦去旧屏幕，使得只有新的空屏幕可见。
         pygame.display.flip()
 
